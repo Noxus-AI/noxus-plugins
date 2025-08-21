@@ -1,0 +1,76 @@
+{
+  "name": "linear",
+  "display_name": "Linear",
+  "version": "0.1.0",
+  "description": "Linear integration for reading issues from your workspace",
+  "category": "other",
+  "author": "Noxus Team",
+  "config": {
+    "api_key": {
+      "type": "str",
+      "description": "The API key for your Linear workspace",
+      "advanced": false,
+      "tab": "Configuration",
+      "accordion": null,
+      "optional": false,
+      "default": null,
+      "rules": [],
+      "visible": true,
+      "display": {
+        "type": "api_key",
+        "label": "Linear API Key",
+        "tooltip": null,
+        "error": null,
+        "is_subconfig": false,
+        "col_span": 12,
+        "col_justify": null,
+        "col_align": null,
+        "is_disabled": false,
+        "name": "LINEAR_API_KEY",
+        "key": "LINEAR_API_KEY"
+      }
+    }
+  },
+  "execution": "runtime",
+  "image": null,
+  "endpoint": null,
+  "nodes": [
+    {
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "issues",
+          "label": "Issues",
+          "definition": {
+            "data_type": "str",
+            "is_list": true
+          },
+          "optional": false
+        }
+      ],
+      "config": {},
+      "type": "LinearIssuesReaderNode",
+      "color": "#E9F6EF",
+      "image": "https://storage.googleapis.com/image-storage-spot-manual/logos/external-integrations/external-integrations/linear.png",
+      "title": "Fetch Linear issues",
+      "description": "This module enables you to fetch a list of issues from Linear.",
+      "small_description": "List Linear issues",
+      "documentation_url": null,
+      "category": "integrations",
+      "sub_category": "Linear",
+      "example": null,
+      "integrations": [
+        "linear"
+      ],
+      "providers": null,
+      "knowledge_base_support": null,
+      "config_endpoint": "/nodes/LinearIssuesReaderNode/config",
+      "subflow_config": null,
+      "is_valid": null,
+      "visible": true,
+      "is_available": true,
+      "show_to_user": true,
+      "paywalled": false
+    }
+  ]
+}
