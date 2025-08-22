@@ -29,6 +29,34 @@
         "name": "LINEAR_API_KEY",
         "key": "LINEAR_API_KEY"
       }
+    },
+    "other_param": {
+      "type": "str",
+      "description": "Other parameter",
+      "advanced": false,
+      "tab": "Configuration",
+      "accordion": null,
+      "optional": false,
+      "default": null,
+      "rules": [],
+      "visible": true,
+      "display": {
+        "type": "text",
+        "label": "Other parameter",
+        "tooltip": null,
+        "error": null,
+        "is_subconfig": false,
+        "col_span": 12,
+        "col_justify": null,
+        "col_align": null,
+        "is_disabled": false,
+        "placeholder": null,
+        "number_of_lines": 1,
+        "show_refresh": false,
+        "is_code": false,
+        "is_textarea": false,
+        "class_name": null
+      }
     }
   },
   "execution": "runtime",

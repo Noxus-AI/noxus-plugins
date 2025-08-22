@@ -8,7 +8,7 @@ Plugins extend the Noxus platform with new nodes, integrations, and functionalit
 
 ## Available Plugins
 
-- **[calendly](./calendly/)** - Calendly integration for scheduling and calendar management
+- **[linear](./linear/)** - Linear integration for issue tracking and project management
 
 ## Using Plugins
 
