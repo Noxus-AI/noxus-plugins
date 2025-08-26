@@ -1,0 +1,178 @@
+from loguru import logger
+from noxus_sdk.nodes.connector import Connector
+from noxus_sdk.ncl import (
+    ConfigMultiSelect,
+    Parameter,
+    ConfigToggle,
+)
+from noxus_sdk.nodes.context import RunExecutionContext
+from noxus_sdk.nodes import ExecutionContext, TypeDefinition, DataType, NodeConfiguration, NodeCategory, BaseNode
+from noxus_sdk.nodes.schemas import ConfigResponse
+import re
+import json
+
+
+class LinearIssuesReaderConfiguration(NodeConfiguration):
+    status: list[dict[str, str]] | None = Parameter(
+        default=None, display=ConfigMultiSelect(label="Linear Issues", values=[])
+    )
+    assignee: list[dict[str, str]] | None = Parameter(
+        default=None, display=ConfigMultiSelect(label="Assignee", values=[])
+    )
+    format_markdown: bool = Parameter(
+        default=True,
+        display=ConfigToggle(label="Format as Markdown"),
+        description="If enabled, the issues are formatted as readable markdown. If disabled, returns raw JSON data.",
+    )
+
+
+class LinearIssuesReaderNode(BaseNode[LinearIssuesReaderConfiguration]):
+    inputs = []
+    outputs = [
+        Connector(
+            name="issues",
+            label="Issues",
+            definition=TypeDefinition(data_type=DataType.str, is_list=True),
+        ),
+    ]
+
+    node_name = "LinearIssuesReaderNode"
+    title = "Fetch Linear issues"
+    color = "#E9F6EF"
+    image = "https://storage.googleapis.com/image-storage-spot-manual/logos/external-integrations/external-integrations/linear.png"
+    description = "This module enables you to fetch a list of issues from Linear."
+    small_description = "List Linear issues"
+    category = NodeCategory.INTEGRATIONS
+    sub_category = "Linear"
+    integrations = ["linear"]
+    config_endpoint = "/nodes/LinearIssuesReaderNode/config"
+    visible = True
+
+    @classmethod
+    async def get_config(
+        cls,
+        ctx: RunExecutionContext,
+        config_args: dict,
+        skip_cache: bool = False,
+    ) -> ConfigResponse:
+        response = await super().get_config(ctx, config_args, skip_cache=skip_cache)
+        ctx = cast(ExecutionContext, ctx)
+
+        try:
+            client = ctx.linear()
+        except ServiceNotConnectedError:
+            response.ready = False
+            return response
+        except Exception as e:
+            logger.opt(exception=e).warning(f"Failed retrieving credentials for Linear")
+            response.ready = False
+            return response
+
+        response.config["status"]["display"]["values"] = [
+            {"value": a, "label": a} for a in await client.list_status()
+        ]
+        response.config["assignee"]["display"]["values"] = [
+            {"value": a, "label": a} for a in await client.list_users()
+        ]
+        return response
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+    async def call(self, ctx: ExecutionContext):
+        client = ctx.linear()
+
+        issues = await client.fetch_all_issues(
+            status_in=(
+                [l["label"] for l in self.config.status] if self.config.status else None
+            ),
+            assignee_in=(
+                [l["label"] for l in self.config.assignee]
+                if self.config.assignee
+                else None
+            ),
+        )
+
+        processed_issues = []
+        for issue in issues:
+            issue_json_str = issue.json()
+            issue_data = (
+                json.loads(issue_json_str)
+                if isinstance(issue_json_str, str)
+                else issue_json_str
+            )
+
+            if issue_data.get("description"):
+                processed_description = self._process_images_in_description(
+                    issue_data["description"]
+                )
+                issue_data["description"] = processed_description
+
+            if self.config.format_markdown:
+                markdown_issue = self._convert_to_markdown(issue_data)
+                processed_issues.append(markdown_issue)
+            else:
+                processed_issues.append(json.dumps(issue_data, indent=2))
+
+        return {"issues": processed_issues}
+
+    def _convert_to_markdown(self, issue_data: dict) -> str:
+        markdown_lines = []
+
+        field_mappings = {
+            "id": "ID",
+            "createdat": "Created At",
+            "updatedat": "Updated At",
+        }
+        
+        for key, value in issue_data.items():
+            if key.lower() in field_mappings:
+                formatted_key = field_mappings[key.lower()]
+            else:
+                formatted_key = key.replace("_", " ").title()
+
+            if value is None:
+                value = "N/A"
+            elif isinstance(value, (dict, list)):
+                value = str(value)
+            elif isinstance(value, str) and not value.strip():
+                value = "N/A"
+
+            if key.lower() == "description" and isinstance(value, str):
+                value = value.rstrip()
+
+                has_markdown = bool(
+                    re.search(
+                        r"(?:^|\n)[*\-+][\s]|(?:^|\n)#{1,6}[\s]|(?:^|\n)\d+\.[\s]|\*\*.*?\*\*|__.*?__|`.*?`",
+                        value,
+                        re.MULTILINE,
+                    )
+                )
+
+                if has_markdown:
+                    markdown_lines.append(f"**{formatted_key}**:\n\n{value}")
+                    markdown_lines.append("")
+                else:
+                    markdown_lines.append(f"**{formatted_key}**: {value}  ")
+            else:
+                markdown_lines.append(f"**{formatted_key}**: {value}  ")
+
+        return "\n".join(markdown_lines)
+
+    def _process_images_in_description(self, description: str) -> str:
+        image_pattern = r"!\[([^\]]*)\]\((https://uploads\.linear\.app/[^)]+)\)"
+
+        def replace_image(match):
+            alt_text = match.group(1)
+            url = match.group(2)
+
+            if not alt_text.strip():
+                alt_text = "Image"
+
+            return f"{alt_text} ({url})"
+
+        processed_description = re.sub(image_pattern, replace_image, description)
+
+        return processed_description
+
+
