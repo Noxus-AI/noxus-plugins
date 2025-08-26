@@ -3,7 +3,7 @@
   "display_name": "Notion",
   "version": "0.1.0",
   "description": "Notion integration for reading data from your Notion space",
-  "category": "integrations",
+  "category": "document",
   "author": "Noxus Team",
   "config": {},
   "execution": "runtime",
