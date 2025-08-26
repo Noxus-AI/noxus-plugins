@@ -7,7 +7,7 @@
   "author": "Noxus Team",
   "config": {},
   "execution": "runtime",
-  "image": null,
+  "image": "https://storage.googleapis.com/image-storage-spot-manual/logos/notion.png",
   "endpoint": null,
   "nodes": [
     {
@@ -26,7 +26,7 @@
       "config": {},
       "type": "LinearIssuesReaderNode",
       "color": "#E9F6EF",
-      "image": "https://storage.googleapis.com/image-storage-spot-manual/logos/external-integrations/external-integrations/notion.png",
+      "image": "https://storage.googleapis.com/image-storage-spot-manual/logos/notion.png",
       "title": "Fetch Notion pages",
       "description": "This module enables you to fetch data from your Notion space.",
       "small_description": "List Notion pages",
