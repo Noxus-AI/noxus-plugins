@@ -38,6 +38,7 @@ class LinearPlugin(BasePlugin[LinearPluginConfiguration]):
     description = "Linear integration for reading issues from your workspace"
     tags = ["linear", "project-management", "integration", "issues"]
     author = "Noxus Team"
+    image = "https://storage.googleapis.com/image-storage-spot-manual/logos/external-integrations/external-integrations/linear.png"
 
     # Execution configuration
     execution = "runtime"

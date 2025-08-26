@@ -60,7 +60,7 @@
     }
   },
   "execution": "runtime",
-  "image": null,
+  "image": "https://storage.googleapis.com/image-storage-spot-manual/logos/external-integrations/external-integrations/linear.png",
   "endpoint": null,
   "nodes": [
     {
