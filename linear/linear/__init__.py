@@ -2,6 +2,7 @@
 
 from typing import Type
 
+from noxus_sdk.schemas import ValidationResult
 from noxus_sdk.plugins import BasePlugin, PluginConfiguration
 from noxus_sdk.nodes import BaseNode
 from noxus_sdk.ncl import APIKeyField, Parameter, ConfigText
@@ -26,6 +27,11 @@ class LinearPluginConfiguration(PluginConfiguration):
         description="Other parameter",
         display=ConfigText(label="Other parameter"),
     )
+
+    def validate_config(self) -> ValidationResult:
+        if self.other_param != "test":
+            return ValidationResult(valid=False, errors=["Other parameter must be 'test'"])
+        return ValidationResult(valid=True)
 
 
 class LinearPlugin(BasePlugin[LinearPluginConfiguration]):

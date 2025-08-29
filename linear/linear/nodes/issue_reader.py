@@ -1,15 +1,16 @@
+import re
+import json
+
 from loguru import logger
+
 from noxus_sdk.nodes.connector import Connector
 from noxus_sdk.ncl import (
     ConfigMultiSelect,
     Parameter,
     ConfigToggle,
 )
-from noxus_sdk.nodes.context import RunExecutionContext
-from noxus_sdk.nodes import ExecutionContext, TypeDefinition, DataType, NodeConfiguration, NodeCategory, BaseNode
-from noxus_sdk.nodes.schemas import ConfigResponse
-import re
-import json
+from noxus_sdk.nodes.context import RemoteExecutionContext
+from noxus_sdk.nodes import TypeDefinition, DataType, NodeConfiguration, NodeCategory, BaseNode, ConfigResponse
 
 
 class LinearIssuesReaderConfiguration(NodeConfiguration):
@@ -45,53 +46,39 @@ class LinearIssuesReaderNode(BaseNode[LinearIssuesReaderConfiguration]):
     category = NodeCategory.INTEGRATIONS
     sub_category = "Linear"
     integrations = ["linear"]
-    config_endpoint = "/nodes/LinearIssuesReaderNode/config"
-    visible = True
+
 
     @classmethod
     async def get_config(
         cls,
-        ctx: RunExecutionContext,
-        config_args: dict,
+        ctx: RemoteExecutionContext,
+        config_response: ConfigResponse,
         skip_cache: bool = False,
     ) -> ConfigResponse:
-        response = await super().get_config(ctx, config_args, skip_cache=skip_cache)
-        ctx = cast(ExecutionContext, ctx)
 
-        try:
-            client = ctx.linear()
-        except ServiceNotConnectedError:
-            response.ready = False
-            return response
-        except Exception as e:
-            logger.opt(exception=e).warning(f"Failed retrieving credentials for Linear")
-            response.ready = False
-            return response
-
-        response.config["status"]["display"]["values"] = [
-            {"value": a, "label": a} for a in await client.list_status()
+        
+        credentials = ctx.get_integration_credentials("linear")
+        config_response.config["status"]["display"]["values"] = [
+            {"value": a, "label": a} for a in ["a", "b", "c"]
         ]
-        response.config["assignee"]["display"]["values"] = [
-            {"value": a, "label": a} for a in await client.list_users()
+        config_response.config["assignee"]["display"]["values"] = [
+            {"value": a, "label": a} for a in ["1", "2", "3"]
         ]
-        return response
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
+        return config_response
 
-    async def call(self, ctx: ExecutionContext):
-        client = ctx.linear()
-
-        issues = await client.fetch_all_issues(
-            status_in=(
-                [l["label"] for l in self.config.status] if self.config.status else None
-            ),
-            assignee_in=(
-                [l["label"] for l in self.config.assignee]
-                if self.config.assignee
-                else None
-            ),
-        )
+    async def call(self, ctx: RemoteExecutionContext):
+        issues = []
+        # issues = await client.fetch_all_issues(
+        #     status_in=(
+        #         [l["label"] for l in self.config.status] if self.config.status else None
+        #     ),
+        #     assignee_in=(
+        #         [l["label"] for l in self.config.assignee]
+        #         if self.config.assignee
+        #         else None
+        #     ),
+        # )
 
         processed_issues = []
         for issue in issues:
