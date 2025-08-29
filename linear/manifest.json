@@ -76,7 +76,80 @@
           "optional": false
         }
       ],
-      "config": {},
+      "config": {
+        "status": {
+          "type": "list",
+          "description": null,
+          "advanced": false,
+          "tab": "Configuration",
+          "accordion": null,
+          "optional": true,
+          "default": null,
+          "rules": [],
+          "visible": true,
+          "display": {
+            "type": "multi_select",
+            "label": "Linear Issues",
+            "tooltip": null,
+            "error": null,
+            "is_subconfig": false,
+            "col_span": 12,
+            "col_justify": null,
+            "col_align": null,
+            "is_disabled": false,
+            "values": [],
+            "placeholder": null,
+            "max_options": null
+          }
+        },
+        "assignee": {
+          "type": "list",
+          "description": null,
+          "advanced": false,
+          "tab": "Configuration",
+          "accordion": null,
+          "optional": true,
+          "default": null,
+          "rules": [],
+          "visible": true,
+          "display": {
+            "type": "multi_select",
+            "label": "Assignee",
+            "tooltip": null,
+            "error": null,
+            "is_subconfig": false,
+            "col_span": 12,
+            "col_justify": null,
+            "col_align": null,
+            "is_disabled": false,
+            "values": [],
+            "placeholder": null,
+            "max_options": null
+          }
+        },
+        "format_markdown": {
+          "type": "bool",
+          "description": "If enabled, the issues are formatted as readable markdown. If disabled, returns raw JSON data.",
+          "advanced": false,
+          "tab": "Configuration",
+          "accordion": null,
+          "optional": true,
+          "default": true,
+          "rules": [],
+          "visible": true,
+          "display": {
+            "type": "toggle",
+            "label": "Format as Markdown",
+            "tooltip": null,
+            "error": null,
+            "is_subconfig": false,
+            "col_span": 12,
+            "col_justify": null,
+            "col_align": null,
+            "is_disabled": false
+          }
+        }
+      },
       "type": "LinearIssuesReaderNode",
       "color": "#E9F6EF",
       "image": "https://storage.googleapis.com/image-storage-spot-manual/logos/external-integrations/external-integrations/linear.png",
