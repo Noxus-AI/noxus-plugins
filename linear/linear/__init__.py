@@ -2,36 +2,15 @@
 
 from typing import Type
 
-from noxus_sdk.schemas import ValidationResult
-from noxus_sdk.plugins import BasePlugin, PluginConfiguration
+from noxus_sdk.plugins import BasePlugin
 from noxus_sdk.nodes import BaseNode
-from noxus_sdk.ncl import APIKeyField, Parameter, ConfigText
+from noxus_sdk.integrations import BaseIntegration
 
+from linear.config import LinearPluginConfiguration
+from linear.integration import LinearIntegration
 from linear.nodes import (
     LinearIssuesReaderNode,
 )
-
-
-class LinearPluginConfiguration(PluginConfiguration):
-    """Linear plugin configuration"""
-
-    api_key: str = Parameter(
-        description="The API key for your Linear workspace",
-        display=APIKeyField(
-            label="Linear API Key",
-            name="LINEAR_API_KEY",
-            key="LINEAR_API_KEY",
-        ),
-    )
-    other_param: str = Parameter(
-        description="Other parameter",
-        display=ConfigText(label="Other parameter"),
-    )
-
-    def validate_config(self) -> ValidationResult:
-        if self.other_param != "test":
-            return ValidationResult(valid=False, errors=["Other parameter must be 'test'"])
-        return ValidationResult(valid=True)
 
 
 class LinearPlugin(BasePlugin[LinearPluginConfiguration]):
@@ -53,4 +32,10 @@ class LinearPlugin(BasePlugin[LinearPluginConfiguration]):
         """Return the nodes provided by this plugin"""
         return [
             LinearIssuesReaderNode,
+        ]
+    
+    def integrations(self) -> list[Type[BaseIntegration]]:
+        """Return the integrations provided by this plugin"""
+        return [
+            LinearIntegration,
         ]

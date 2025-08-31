@@ -6,9 +6,9 @@
   "category": "other",
   "author": "Noxus Team",
   "config": {
-    "api_key": {
+    "client_id": {
       "type": "str",
-      "description": "The API key for your Linear workspace",
+      "description": "The Client ID of your Linear app",
       "advanced": false,
       "tab": "Configuration",
       "accordion": null,
@@ -18,7 +18,7 @@
       "visible": true,
       "display": {
         "type": "api_key",
-        "label": "Linear API Key",
+        "label": "Linear Client ID",
         "tooltip": null,
         "error": null,
         "is_subconfig": false,
@@ -26,13 +26,13 @@
         "col_justify": null,
         "col_align": null,
         "is_disabled": false,
-        "name": "LINEAR_API_KEY",
-        "key": "LINEAR_API_KEY"
+        "name": "LINEAR_CLIENT_ID",
+        "key": "LINEAR_CLIENT_ID"
       }
     },
-    "other_param": {
+    "client_secret": {
       "type": "str",
-      "description": "Other parameter",
+      "description": "The Client Secret of your Linear app",
       "advanced": false,
       "tab": "Configuration",
       "accordion": null,
@@ -42,7 +42,7 @@
       "visible": true,
       "display": {
         "type": "text",
-        "label": "Other parameter",
+        "label": "Linear Client Secret",
         "tooltip": null,
         "error": null,
         "is_subconfig": false,
@@ -158,7 +158,7 @@
       "small_description": "List Linear issues",
       "documentation_url": null,
       "category": "integrations",
-      "sub_category": "Linear",
+      "sub_category": null,
       "example": null,
       "integrations": [
         "linear"
@@ -172,6 +172,18 @@
       "is_available": true,
       "show_to_user": true,
       "paywalled": false
+    }
+  ],
+  "integrations": [
+    {
+      "name": "linear",
+      "type": "nango",
+      "display_name": "Linear",
+      "description": "Integration with Linear for project management and issue tracking",
+      "image": "https://storage.googleapis.com/image-storage-spot-manual/logos/external-integrations/external-integrations/linear.png",
+      "scopes": [
+        "issues:read"
+      ]
     }
   ]
 }

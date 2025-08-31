@@ -10,7 +10,8 @@ from noxus_sdk.ncl import (
     ConfigToggle,
 )
 from noxus_sdk.nodes.context import RemoteExecutionContext
-from noxus_sdk.nodes import TypeDefinition, DataType, NodeConfiguration, NodeCategory, BaseNode, ConfigResponse
+from noxus_sdk.nodes import TypeDefinition, DataType, NodeConfiguration, NodeCategory, BaseNode
+from noxus_sdk.nodes.schemas import ConfigResponse
 
 
 class LinearIssuesReaderConfiguration(NodeConfiguration):
@@ -44,8 +45,10 @@ class LinearIssuesReaderNode(BaseNode[LinearIssuesReaderConfiguration]):
     description = "This module enables you to fetch a list of issues from Linear."
     small_description = "List Linear issues"
     category = NodeCategory.INTEGRATIONS
-    sub_category = "Linear"
-    integrations = ["linear"]
+
+    integrations = {
+        "linear": ["issues:read"]
+    }
 
 
     @classmethod
