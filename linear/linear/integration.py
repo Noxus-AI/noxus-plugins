@@ -1,4 +1,7 @@
+
 from noxus_sdk.integrations import NangoIntegration, NangoProviderOAuthCredentials
+from noxus_sdk.plugins.context import RemoteExecutionContext
+
 
 
 class LinearIntegration(NangoIntegration):
@@ -14,12 +17,14 @@ class LinearIntegration(NangoIntegration):
 
     # Nango specific
     provider = "linear"
+    window_height = 600
+    window_width = 600
 
-    def get_nango_credentials(self, config: dict) -> NangoProviderOAuthCredentials:
+    @classmethod
+    def get_provider_credentials(cls, ctx: RemoteExecutionContext) -> NangoProviderOAuthCredentials:
         """Get the Nango credentials for this integration"""
-        
         return NangoProviderOAuthCredentials(
             type="OAUTH2",
-            client_id=config["client_id"],
-            client_secret=config["client_secret"],
+            client_id=ctx.plugin_config["client_id"],
+            client_secret=ctx.plugin_config["client_secret"],
         )

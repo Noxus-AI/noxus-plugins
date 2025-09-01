@@ -183,7 +183,12 @@
       "image": "https://storage.googleapis.com/image-storage-spot-manual/logos/external-integrations/external-integrations/linear.png",
       "scopes": [
         "issues:read"
-      ]
+      ],
+      "properties": {
+        "provider": "linear",
+        "window_height": 600,
+        "window_width": 600
+      }
     }
   ]
 }

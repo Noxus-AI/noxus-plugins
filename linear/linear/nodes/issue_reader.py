@@ -9,7 +9,7 @@ from noxus_sdk.ncl import (
     Parameter,
     ConfigToggle,
 )
-from noxus_sdk.nodes.context import RemoteExecutionContext
+from noxus_sdk.plugins import RemoteExecutionContext
 from noxus_sdk.nodes import TypeDefinition, DataType, NodeConfiguration, NodeCategory, BaseNode
 from noxus_sdk.nodes.schemas import ConfigResponse
 
