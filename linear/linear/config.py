@@ -10,17 +10,11 @@ class LinearPluginConfiguration(PluginConfiguration):
 
     client_id: str = Parameter(
         description="The Client ID of your Linear app",
-        display=APIKeyField(
-            label="Linear Client ID",
-            name="LINEAR_CLIENT_ID",
-            key="LINEAR_CLIENT_ID",
-        ),
+        display=ConfigText(label="Linear Client ID"),
     )
     client_secret: str = Parameter(
         description="The Client Secret of your Linear app",
-        display=ConfigText(label="Linear Client Secret"),
-        name="LINEAR_CLIENT_SECRET",
-        key="LINEAR_CLIENT_SECRET",
+        display=APIKeyField(label="Linear Client Secret", name="LINEAR_CLIENT_SECRET", key="LINEAR_CLIENT_SECRET"),
     )
 
     def validate_config(self) -> ValidationResult:

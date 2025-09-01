@@ -17,32 +17,8 @@
       "rules": [],
       "visible": true,
       "display": {
-        "type": "api_key",
-        "label": "Linear Client ID",
-        "tooltip": null,
-        "error": null,
-        "is_subconfig": false,
-        "col_span": 12,
-        "col_justify": null,
-        "col_align": null,
-        "is_disabled": false,
-        "name": "LINEAR_CLIENT_ID",
-        "key": "LINEAR_CLIENT_ID"
-      }
-    },
-    "client_secret": {
-      "type": "str",
-      "description": "The Client Secret of your Linear app",
-      "advanced": false,
-      "tab": "Configuration",
-      "accordion": null,
-      "optional": false,
-      "default": null,
-      "rules": [],
-      "visible": true,
-      "display": {
         "type": "text",
-        "label": "Linear Client Secret",
+        "label": "Linear Client ID",
         "tooltip": null,
         "error": null,
         "is_subconfig": false,
@@ -56,6 +32,30 @@
         "is_code": false,
         "is_textarea": false,
         "class_name": null
+      }
+    },
+    "client_secret": {
+      "type": "str",
+      "description": "The Client Secret of your Linear app",
+      "advanced": false,
+      "tab": "Configuration",
+      "accordion": null,
+      "optional": false,
+      "default": null,
+      "rules": [],
+      "visible": true,
+      "display": {
+        "type": "api_key",
+        "label": "Linear Client Secret",
+        "tooltip": null,
+        "error": null,
+        "is_subconfig": false,
+        "col_span": 12,
+        "col_justify": null,
+        "col_align": null,
+        "is_disabled": false,
+        "name": "LINEAR_CLIENT_SECRET",
+        "key": "LINEAR_CLIENT_SECRET"
       }
     }
   },
