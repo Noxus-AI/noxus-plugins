@@ -10,7 +10,7 @@ class LinearPluginConfiguration(PluginConfiguration):
 
     client_id: str = Parameter(
         description="The Client ID of your Linear app",
-        display=ConfigText(label="Linear Client ID"),
+        display=ConfigText(label="Linear Client ID", placeholder="Enter your Linear Client ID"),
     )
     client_secret: str = Parameter(
         description="The Client Secret of your Linear app",

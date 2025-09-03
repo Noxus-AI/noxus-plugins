@@ -26,7 +26,7 @@
         "col_justify": null,
         "col_align": null,
         "is_disabled": false,
-        "placeholder": null,
+        "placeholder": "Enter your Linear Client ID",
         "number_of_lines": 1,
         "show_refresh": false,
         "is_code": false,
