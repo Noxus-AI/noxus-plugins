@@ -1,17 +1,15 @@
 import re
 import json
 
-from loguru import logger
-
-from noxus_sdk.nodes.connector import Connector
 from noxus_sdk.ncl import (
     ConfigMultiSelect,
     Parameter,
     ConfigToggle,
 )
 from noxus_sdk.plugins import RemoteExecutionContext
-from noxus_sdk.nodes import TypeDefinition, DataType, NodeConfiguration, NodeCategory, BaseNode
-from noxus_sdk.nodes.schemas import ConfigResponse
+from noxus_sdk.nodes import Connector, ConfigResponse, TypeDefinition, DataType, NodeConfiguration, NodeCategory, BaseNode
+
+from linear.client import LinearClient
 
 
 class LinearIssuesReaderConfiguration(NodeConfiguration):
@@ -59,13 +57,14 @@ class LinearIssuesReaderNode(BaseNode[LinearIssuesReaderConfiguration]):
         skip_cache: bool = False,
     ) -> ConfigResponse:
 
-        
         credentials = ctx.get_integration_credentials("linear")
+        client = LinearClient(credentials["access_token"])
+
         config_response.config["status"]["display"]["values"] = [
-            {"value": a, "label": a} for a in ["a", "b", "c"]
+            {"value": a, "label": a} for a in await client.list_status()
         ]
         config_response.config["assignee"]["display"]["values"] = [
-            {"value": a, "label": a} for a in ["1", "2", "3"]
+            {"value": a, "label": a} for a in await client.list_users()
         ]
 
         return config_response
