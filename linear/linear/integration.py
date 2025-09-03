@@ -27,4 +27,5 @@ class LinearIntegration(NangoIntegration):
             type="OAUTH2",
             client_id=ctx.plugin_config["client_id"],
             client_secret=ctx.plugin_config["client_secret"],
+            webhook_secret=ctx.plugin_config["webhook_secret"],
         )

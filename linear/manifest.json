@@ -57,6 +57,30 @@
         "name": "LINEAR_CLIENT_SECRET",
         "key": "LINEAR_CLIENT_SECRET"
       }
+    },
+    "webhook_secret": {
+      "type": "str",
+      "description": "The Webhook Secret of your Linear app",
+      "advanced": false,
+      "tab": "Configuration",
+      "accordion": null,
+      "optional": false,
+      "default": null,
+      "rules": [],
+      "visible": true,
+      "display": {
+        "type": "api_key",
+        "label": "Linear Webhook Secret",
+        "tooltip": null,
+        "error": null,
+        "is_subconfig": false,
+        "col_span": 12,
+        "col_justify": null,
+        "col_align": null,
+        "is_disabled": false,
+        "name": "LINEAR_WEBHOOK_SECRET",
+        "key": "LINEAR_WEBHOOK_SECRET"
+      }
     }
   },
   "execution": "runtime",

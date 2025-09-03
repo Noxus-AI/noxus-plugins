@@ -16,7 +16,19 @@ class LinearPluginConfiguration(PluginConfiguration):
         description="The Client Secret of your Linear app",
         display=APIKeyField(label="Linear Client Secret", name="LINEAR_CLIENT_SECRET", key="LINEAR_CLIENT_SECRET"),
     )
+    webhook_secret: str = Parameter(
+        description="The Webhook Secret of your Linear app",
+        display=APIKeyField(label="Linear Webhook Secret", name="LINEAR_WEBHOOK_SECRET", key="LINEAR_WEBHOOK_SECRET"),
+    )
 
     def validate_config(self) -> ValidationResult:
-        # TODO: Think about a way to validate the config
+        valiation_errors = []        
+        if not self.client_id:
+            valiation_errors.append("Client ID is required")
+        if not self.client_secret:
+            valiation_errors.append("Client Secret is required")
+        if not self.webhook_secret:
+            valiation_errors.append("Webhook Secret is required")
+        if valiation_errors:
+            return ValidationResult(valid=False, errors=valiation_errors)
         return ValidationResult(valid=True)
