@@ -29,15 +29,37 @@ class LinearClient:
             "Content-Type": "application/json",
         }
 
-    async def list_status(self):
+
+    async def list_teams(self):
         query = """
         query {
-            workflowStates {
+            teams {
                 nodes {
                     name
                 }
             }
         }
+        """
+        async with httpx.AsyncClient(timeout=self.timeout) as client:
+            response = await client.post(
+                self.url, headers=self.headers, json={"query": query}
+            )
+            data = response.json()
+            return list(set([a["name"] for a in data["data"]["teams"]["nodes"]]))
+
+    async def list_status(self, team: str | None = None):
+        filters = []
+        if team:
+            filters.append(f'team: {{ name: {{ in: ["{team}"] }} }}')
+        filter_ = ("(filter: {" + ", ".join(filters) + "})") if len(filters) else ""
+        query = f"""
+        query {{
+            workflowStates{filter_} {{
+                nodes {{
+                    name
+                }}
+            }}
+        }}
         """
         async with httpx.AsyncClient(timeout=self.timeout) as client:
             response = await client.post(
@@ -49,14 +71,14 @@ class LinearClient:
             )
 
     async def list_users(self):
-        query = """
-        query {
-            users {
-                nodes {
+        query = f"""
+        query {{
+            users {{
+                nodes {{
                     name
-                }
-            }
-        }
+                }}
+            }}
+        }}
         """
         async with httpx.AsyncClient(timeout=self.timeout) as client:
             response = await client.post(
@@ -67,6 +89,8 @@ class LinearClient:
 
     async def fetch_all_issues(
         self,
+        team_in: list[str] | None = None,
+        team_nin: list[str] | None = None,
         status_in: list[str] | None = None,
         status_nin: list[str] | None = None,
         assignee_in: list[str] | None = None,
@@ -76,6 +100,15 @@ class LinearClient:
         cursor = None  # Start with no cursor for the first page
 
         filters = []
+        team_filter = None
+        if team_in:
+            lst = ", ".join([f'"{team}"' for team in team_in])
+            team_filter = f"team: {{ name: {{ in: [{lst}] }} }}"
+        elif team_nin:
+            lst = ", ".join([f'"{team}"' for team in team_nin])
+            team_filter = f"team: {{ name: {{ nin: [{lst}] }} }}"
+        if team_filter:
+            filters.append(team_filter)
         status_filter = None
         if status_in:
             lst = ", ".join([f'"{status}"' for status in status_in])
@@ -146,4 +179,3 @@ class LinearClient:
                     break
                 cursor = page_info["endCursor"]
         return issues
-

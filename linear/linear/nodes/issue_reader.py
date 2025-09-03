@@ -13,8 +13,11 @@ from linear.client import LinearClient
 
 
 class LinearIssuesReaderConfiguration(NodeConfiguration):
+    team: list[dict[str, str]] | None = Parameter(
+        default=None, display=ConfigMultiSelect(label="Team", values=[])
+    )
     status: list[dict[str, str]] | None = Parameter(
-        default=None, display=ConfigMultiSelect(label="Linear Issues", values=[])
+        default=None, display=ConfigMultiSelect(label="Status", values=[])
     )
     assignee: list[dict[str, str]] | None = Parameter(
         default=None, display=ConfigMultiSelect(label="Assignee", values=[])
@@ -27,6 +30,7 @@ class LinearIssuesReaderConfiguration(NodeConfiguration):
 
 
 class LinearIssuesReaderNode(BaseNode[LinearIssuesReaderConfiguration]):
+    version = "1"
     inputs = []
     outputs = [
         Connector(
@@ -60,8 +64,15 @@ class LinearIssuesReaderNode(BaseNode[LinearIssuesReaderConfiguration]):
         credentials = ctx.get_integration_credentials("linear")
         client = LinearClient(credentials["access_token"])
 
+        config_response.config["team"]["display"]["values"] = [
+            {"value": a, "label": a} for a in await client.list_teams()
+        ]
+
+        teams = [v["value"] for v in config_response.config.get("team", [])]
+        team = teams[0] if teams else None
+
         config_response.config["status"]["display"]["values"] = [
-            {"value": a, "label": a} for a in await client.list_status()
+            {"value": a, "label": a} for a in await client.list_status(team=team)
         ]
         config_response.config["assignee"]["display"]["values"] = [
             {"value": a, "label": a} for a in await client.list_users()
@@ -70,17 +81,22 @@ class LinearIssuesReaderNode(BaseNode[LinearIssuesReaderConfiguration]):
         return config_response
 
     async def call(self, ctx: RemoteExecutionContext):
-        issues = []
-        # issues = await client.fetch_all_issues(
-        #     status_in=(
-        #         [l["label"] for l in self.config.status] if self.config.status else None
-        #     ),
-        #     assignee_in=(
-        #         [l["label"] for l in self.config.assignee]
-        #         if self.config.assignee
-        #         else None
-        #     ),
-        # )
+        credentials = ctx.get_integration_credentials("linear")
+        client = LinearClient(credentials["access_token"])
+        
+        issues = await client.fetch_all_issues(
+            team_in=(
+                [l["label"] for l in self.config.team] if self.config.team else None
+            ),
+            status_in=(
+                [l["label"] for l in self.config.status] if self.config.status else None
+            ),
+            assignee_in=(
+                [l["label"] for l in self.config.assignee]
+                if self.config.assignee
+                else None
+            ),
+        )
 
         processed_issues = []
         for issue in issues:
@@ -103,6 +119,12 @@ class LinearIssuesReaderNode(BaseNode[LinearIssuesReaderConfiguration]):
             else:
                 processed_issues.append(json.dumps(issue_data, indent=2))
 
+        await manager.register_integration_run(
+            IntegrationRunEvent(
+                fingerprint=ctx.get_fingerprint(),
+                integration="linear",
+            )
+        )
         return {"issues": processed_issues}
 
     def _convert_to_markdown(self, issue_data: dict) -> str:
@@ -113,7 +135,7 @@ class LinearIssuesReaderNode(BaseNode[LinearIssuesReaderConfiguration]):
             "createdat": "Created At",
             "updatedat": "Updated At",
         }
-        
+
         for key, value in issue_data.items():
             if key.lower() in field_mappings:
                 formatted_key = field_mappings[key.lower()]
@@ -163,5 +185,3 @@ class LinearIssuesReaderNode(BaseNode[LinearIssuesReaderConfiguration]):
         processed_description = re.sub(image_pattern, replace_image, description)
 
         return processed_description
-
-

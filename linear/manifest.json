@@ -101,6 +101,31 @@
         }
       ],
       "config": {
+        "team": {
+          "type": "list",
+          "description": null,
+          "advanced": false,
+          "tab": "Configuration",
+          "accordion": null,
+          "optional": true,
+          "default": null,
+          "rules": [],
+          "visible": true,
+          "display": {
+            "type": "multi_select",
+            "label": "Team",
+            "tooltip": null,
+            "error": null,
+            "is_subconfig": false,
+            "col_span": 12,
+            "col_justify": null,
+            "col_align": null,
+            "is_disabled": false,
+            "values": [],
+            "placeholder": null,
+            "max_options": null
+          }
+        },
         "status": {
           "type": "list",
           "description": null,
@@ -113,7 +138,7 @@
           "visible": true,
           "display": {
             "type": "multi_select",
-            "label": "Linear Issues",
+            "label": "Status",
             "tooltip": null,
             "error": null,
             "is_subconfig": false,
