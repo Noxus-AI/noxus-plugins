@@ -22,13 +22,14 @@ class LinearPluginConfiguration(PluginConfiguration):
     )
 
     def validate_config(self) -> ValidationResult:
-        valiation_errors = []        
+        missing_fields = []
         if not self.client_id:
-            valiation_errors.append("Client ID is required")
+            missing_fields.append("Client ID")
         if not self.client_secret:
-            valiation_errors.append("Client Secret is required")
+            missing_fields.append("Client Secret")
         if not self.webhook_secret:
-            valiation_errors.append("Webhook Secret is required")
-        if valiation_errors:
-            return ValidationResult(valid=False, errors=valiation_errors)
+            missing_fields.append("Webhook Secret")
+        if missing_fields:
+            error_message = "The following fields are required: " + ", ".join(missing_fields)
+            return ValidationResult(valid=False, errors=[error_message])
         return ValidationResult(valid=True)
