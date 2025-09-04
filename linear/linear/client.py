@@ -47,10 +47,10 @@ class LinearClient:
             data = response.json()
             return list(set([a["name"] for a in data["data"]["teams"]["nodes"]]))
 
-    async def list_status(self, team: str | None = None):
+    async def list_status(self, teams: list[str] | None = None):
         filters = []
-        if team:
-            filters.append(f'team: {{ name: {{ in: ["{team}"] }} }}')
+        if teams:
+            filters.append(f'team: {{ name: {{ in: ["{", ".join(teams)}"] }} }}')
         filter_ = ("(filter: {" + ", ".join(filters) + "})") if len(filters) else ""
         query = f"""
         query {{

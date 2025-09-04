@@ -63,16 +63,15 @@ class LinearIssuesReaderNode(BaseNode[LinearIssuesReaderConfiguration]):
 
         credentials = ctx.get_integration_credentials("linear")
         client = LinearClient(credentials["access_token"])
+    
+        selected_teams = [v["value"] for v in config_response.config.get("team", [])]
 
         config_response.config["team"]["display"]["values"] = [
             {"value": a, "label": a} for a in await client.list_teams()
         ]
 
-        teams = [v["value"] for v in config_response.config.get("team", [])]
-        team = teams[0] if teams else None
-
         config_response.config["status"]["display"]["values"] = [
-            {"value": a, "label": a} for a in await client.list_status(team=team)
+            {"value": a, "label": a} for a in await client.list_status(teams=selected_teams if selected_teams else None)
         ]
         config_response.config["assignee"]["display"]["values"] = [
             {"value": a, "label": a} for a in await client.list_users()
