@@ -63,8 +63,8 @@ class LinearIssuesReaderNode(BaseNode[LinearIssuesReaderConfiguration]):
 
         credentials = ctx.get_integration_credentials("linear")
         client = LinearClient(credentials["access_token"])
-    
-        selected_teams = [v["value"] for v in config_response.config.get("team", [])]
+
+        selected_teams = config_response.config["team"]["display"]["values"]
 
         config_response.config["team"]["display"]["values"] = [
             {"value": a, "label": a} for a in await client.list_teams()
