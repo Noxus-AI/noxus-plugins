@@ -118,12 +118,7 @@ class LinearIssuesReaderNode(BaseNode[LinearIssuesReaderConfiguration]):
             else:
                 processed_issues.append(json.dumps(issue_data, indent=2))
 
-        await manager.register_integration_run(
-            IntegrationRunEvent(
-                fingerprint=ctx.get_fingerprint(),
-                integration="linear",
-            )
-        )
+
         return {"issues": processed_issues}
 
     def _convert_to_markdown(self, issue_data: dict) -> str:
