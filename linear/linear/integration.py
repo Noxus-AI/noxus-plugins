@@ -9,7 +9,7 @@ class LinearIntegration(NangoIntegration):
 
     name = "linear"
     display_name = "Linear"
-    description = "Integration with Linear for project management and issue tracking"
+    description = "Integration with Linear for project management and issue tracking."
     image = "https://storage.googleapis.com/image-storage-spot-manual/logos/external-integrations/external-integrations/linear.png"
     scopes = [
         "issues:read"

@@ -20,7 +20,7 @@ class LinearPlugin(BasePlugin[LinearPluginConfiguration]):
     name = "linear"
     display_name = "Linear"
     version = "0.1.0"
-    description = "Linear integration for reading issues from your workspace"
+    description = "Linear integration for reading issues from your workspace."
     tags = ["linear", "project-management", "integration", "issues"]
     author = "Noxus Team"
     image = "https://storage.googleapis.com/image-storage-spot-manual/logos/external-integrations/external-integrations/linear.png"
