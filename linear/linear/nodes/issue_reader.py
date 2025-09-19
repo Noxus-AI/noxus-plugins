@@ -30,7 +30,6 @@ class LinearIssuesReaderConfiguration(NodeConfiguration):
 
 
 class LinearIssuesReaderNode(BaseNode[LinearIssuesReaderConfiguration]):
-    version = "1"
     inputs = []
     outputs = [
         Connector(

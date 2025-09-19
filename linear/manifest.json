@@ -2,7 +2,7 @@
   "name": "linear",
   "display_name": "Linear",
   "version": "0.1.0",
-  "description": "Linear integration for reading issues from your workspace",
+  "description": "Linear integration for reading issues from your workspace.",
   "category": "other",
   "author": "Noxus Team",
   "config": {
@@ -228,7 +228,7 @@
       "name": "linear",
       "type": "nango",
       "display_name": "Linear",
-      "description": "Integration with Linear for project management and issue tracking",
+      "description": "Integration with Linear for project management and issue tracking.",
       "image": "https://storage.googleapis.com/image-storage-spot-manual/logos/external-integrations/external-integrations/linear.png",
       "scopes": [
         "issues:read"

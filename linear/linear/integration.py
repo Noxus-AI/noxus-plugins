@@ -1,6 +1,6 @@
 
 from noxus_sdk.integrations import NangoIntegration, NangoProviderOAuthCredentials
-from noxus_sdk.plugins.context import RemoteExecutionContext
+from noxus_sdk.plugins import RemoteExecutionContext
 
 
 
@@ -29,3 +29,4 @@ class LinearIntegration(NangoIntegration):
             client_secret=ctx.plugin_config["client_secret"],
             webhook_secret=ctx.plugin_config["webhook_secret"],
         )
+
