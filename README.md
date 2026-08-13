@@ -9,6 +9,7 @@ Plugins extend the Noxus platform with new nodes, integrations, and functionalit
 ## Available Plugins
 
 - **[linear](./linear/)** - Linear integration for issue tracking and project management
+- **[homey](./homey/)** - Authenticated control of Athom Homey devices and flows
 
 ## Using Plugins
 

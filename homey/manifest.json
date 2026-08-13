@@ -1,0 +1,511 @@
+{
+  "name": "homey",
+  "display_name": "Homey",
+  "version": "0.1.0",
+  "description": "Control Athom Homey devices and flows with managed OAuth or API-key authentication.",
+  "category": "other",
+  "author": "Noxus Team",
+  "dependencies": [
+    "httpx>=0.27.0",
+    "noxus-sdk>=0.5.1"
+  ],
+  "config": {},
+  "execution": "runtime",
+  "image": "https://etc.athom.com/logo/transparent/128.png",
+  "endpoint": null,
+  "nodes": [],
+  "nodes_v2": [
+    {
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "devices",
+          "label": "devices",
+          "definition": {
+            "data_type": "dict",
+            "is_list": true
+          },
+          "optional": false
+        },
+        {
+          "name": "count",
+          "label": "count",
+          "definition": {
+            "data_type": "number",
+            "is_list": false
+          },
+          "optional": false
+        }
+      ],
+      "details": [],
+      "config": {},
+      "type": "ListHomeyDevicesNode",
+      "color": "#080B14",
+      "image": "https://etc.athom.com/logo/transparent/128.png",
+      "title": "List Homey devices",
+      "description": "Lists devices and their current capabilities from Homey.",
+      "small_description": "List devices from Homey",
+      "documentation_url": "https://api.developer.homey.app/",
+      "category": "integrations",
+      "sub_category": "Homey",
+      "example": null,
+      "ai_instructions": null,
+      "integrations": [
+        "homey"
+      ],
+      "providers": null,
+      "knowledge_base_support": null,
+      "config_endpoint": "/nodes/ListHomeyDevicesNode/config",
+      "subflow_config": null,
+      "is_valid": null,
+      "visible": true,
+      "is_available": true,
+      "show_to_user": true,
+      "paywalled": false
+    },
+    {
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "device",
+          "label": "device",
+          "definition": {
+            "data_type": "dict",
+            "is_list": false
+          },
+          "optional": false
+        }
+      ],
+      "details": [],
+      "config": {
+        "device_id": {
+          "type": "str",
+          "description": "The Homey device ID.",
+          "advanced": false,
+          "tab": "Configuration",
+          "accordion": null,
+          "optional": false,
+          "default": null,
+          "rules": [],
+          "visible": true,
+          "display": {
+            "type": "select",
+            "label": "Device",
+            "tooltip": null,
+            "error": null,
+            "is_subconfig": false,
+            "col_span": 12,
+            "col_justify": null,
+            "col_align": null,
+            "is_disabled": false,
+            "values": [],
+            "placeholder": "Select a Homey device",
+            "is_clearable": false,
+            "is_horizontal": false,
+            "is_searchable": true
+          }
+        }
+      },
+      "type": "GetHomeyDeviceNode",
+      "color": "#080B14",
+      "image": "https://etc.athom.com/logo/transparent/128.png",
+      "title": "Get Homey device",
+      "description": "Gets one Homey device and its current capability values.",
+      "small_description": "Read a Homey device",
+      "documentation_url": "https://api.developer.homey.app/",
+      "category": "integrations",
+      "sub_category": "Homey",
+      "example": null,
+      "ai_instructions": null,
+      "integrations": [
+        "homey"
+      ],
+      "providers": null,
+      "knowledge_base_support": null,
+      "config_endpoint": "/nodes/GetHomeyDeviceNode/config",
+      "subflow_config": null,
+      "is_valid": null,
+      "visible": true,
+      "is_available": true,
+      "show_to_user": true,
+      "paywalled": false
+    },
+    {
+      "inputs": [
+        {
+          "name": "value",
+          "label": "Value",
+          "definition": {
+            "data_type": "str",
+            "is_list": false
+          },
+          "optional": false
+        }
+      ],
+      "outputs": [
+        {
+          "name": "device_id",
+          "label": "device_id",
+          "definition": {
+            "data_type": "str",
+            "is_list": false
+          },
+          "optional": false
+        },
+        {
+          "name": "capability_id",
+          "label": "capability_id",
+          "definition": {
+            "data_type": "str",
+            "is_list": false
+          },
+          "optional": false
+        },
+        {
+          "name": "value",
+          "label": "value",
+          "definition": {
+            "data_type": "str",
+            "is_list": false
+          },
+          "optional": false
+        }
+      ],
+      "details": [],
+      "config": {
+        "device_id": {
+          "type": "str",
+          "description": "The Homey device ID.",
+          "advanced": false,
+          "tab": "Configuration",
+          "accordion": null,
+          "optional": false,
+          "default": null,
+          "rules": [],
+          "visible": true,
+          "display": {
+            "type": "select",
+            "label": "Device",
+            "tooltip": null,
+            "error": null,
+            "is_subconfig": false,
+            "col_span": 12,
+            "col_justify": null,
+            "col_align": null,
+            "is_disabled": false,
+            "values": [],
+            "placeholder": "Select a Homey device",
+            "is_clearable": false,
+            "is_horizontal": false,
+            "is_searchable": true
+          }
+        },
+        "capability_id": {
+          "type": "str",
+          "description": "A capability such as onoff, dim, or target_temperature.",
+          "advanced": false,
+          "tab": "Configuration",
+          "accordion": null,
+          "optional": false,
+          "default": null,
+          "rules": [],
+          "visible": true,
+          "display": {
+            "type": "select",
+            "label": "Capability",
+            "tooltip": null,
+            "error": null,
+            "is_subconfig": false,
+            "col_span": 12,
+            "col_justify": null,
+            "col_align": null,
+            "is_disabled": false,
+            "values": [],
+            "placeholder": "Select a capability",
+            "is_clearable": false,
+            "is_horizontal": false,
+            "is_searchable": true
+          }
+        }
+      },
+      "type": "SetHomeyCapabilityNode",
+      "color": "#080B14",
+      "image": "https://etc.athom.com/logo/transparent/128.png",
+      "title": "Set Homey capability",
+      "description": "Changes a capability value on a Homey device.",
+      "small_description": "Control a Homey device",
+      "documentation_url": "https://api.developer.homey.app/",
+      "category": "integrations",
+      "sub_category": "Homey",
+      "example": null,
+      "ai_instructions": null,
+      "integrations": [
+        "homey"
+      ],
+      "providers": null,
+      "knowledge_base_support": null,
+      "config_endpoint": "/nodes/SetHomeyCapabilityNode/config",
+      "subflow_config": null,
+      "is_valid": null,
+      "visible": true,
+      "is_available": true,
+      "show_to_user": true,
+      "paywalled": false
+    },
+    {
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "flow_id",
+          "label": "flow_id",
+          "definition": {
+            "data_type": "str",
+            "is_list": false
+          },
+          "optional": false
+        },
+        {
+          "name": "flow_type",
+          "label": "flow_type",
+          "definition": {
+            "data_type": "str",
+            "is_list": false
+          },
+          "optional": false
+        },
+        {
+          "name": "triggered",
+          "label": "triggered",
+          "definition": {
+            "data_type": "bool",
+            "is_list": false
+          },
+          "optional": false
+        }
+      ],
+      "details": [],
+      "config": {
+        "flow_type": {
+          "type": "str",
+          "description": null,
+          "advanced": false,
+          "tab": "Configuration",
+          "accordion": null,
+          "optional": true,
+          "default": "standard",
+          "rules": [],
+          "visible": true,
+          "display": {
+            "type": "select",
+            "label": "Flow type",
+            "tooltip": null,
+            "error": null,
+            "is_subconfig": false,
+            "col_span": 12,
+            "col_justify": null,
+            "col_align": null,
+            "is_disabled": false,
+            "values": [
+              "standard",
+              "advanced"
+            ],
+            "placeholder": null,
+            "is_clearable": false,
+            "is_horizontal": false,
+            "is_searchable": true
+          }
+        },
+        "flow_id": {
+          "type": "str",
+          "description": "The standard or Advanced Flow ID.",
+          "advanced": false,
+          "tab": "Configuration",
+          "accordion": null,
+          "optional": false,
+          "default": null,
+          "rules": [],
+          "visible": true,
+          "display": {
+            "type": "select",
+            "label": "Flow",
+            "tooltip": null,
+            "error": null,
+            "is_subconfig": false,
+            "col_span": 12,
+            "col_justify": null,
+            "col_align": null,
+            "is_disabled": false,
+            "values": [],
+            "placeholder": "Select a Homey Flow",
+            "is_clearable": false,
+            "is_horizontal": false,
+            "is_searchable": true
+          }
+        }
+      },
+      "type": "TriggerHomeyFlowNode",
+      "color": "#080B14",
+      "image": "https://etc.athom.com/logo/transparent/128.png",
+      "title": "Trigger Homey Flow",
+      "description": "Starts a standard or Advanced Flow on Homey.",
+      "small_description": "Start a Homey Flow",
+      "documentation_url": "https://api.developer.homey.app/",
+      "category": "integrations",
+      "sub_category": "Homey",
+      "example": null,
+      "ai_instructions": null,
+      "integrations": [
+        "homey"
+      ],
+      "providers": null,
+      "knowledge_base_support": null,
+      "config_endpoint": "/nodes/TriggerHomeyFlowNode/config",
+      "subflow_config": null,
+      "is_valid": null,
+      "visible": true,
+      "is_available": true,
+      "show_to_user": true,
+      "paywalled": false
+    }
+  ],
+  "integrations": [
+    {
+      "type": "homey",
+      "display_name": "Homey",
+      "image": "https://etc.athom.com/logo/transparent/128.png",
+      "description": "",
+      "scopes": [],
+      "properties": {},
+      "providers": [
+        {
+          "key": "homey_oauth",
+          "auth_type": "oauth2",
+          "display_name": "Homey Account",
+          "oauth2": {
+            "authorize_url": "https://api.athom.com/oauth2/authorise",
+            "token_url": "https://api.athom.com/oauth2/token",
+            "scopes": [],
+            "token_response": {
+              "expires_in_key": "expires_in",
+              "expires_at_key": null,
+              "refresh_token_rotated": true
+            },
+            "refresh": {
+              "refresh_extra_params": {},
+              "refresh_grant_type": "refresh_token",
+              "refresh_url": null
+            },
+            "code_challenge_method": null,
+            "extra_authorize_params": {},
+            "revocation_url": null,
+            "authorization_code_param": "code",
+            "response_type_param": "response_type",
+            "include_redirect_uri_in_token_request": false
+          },
+          "ncs_provider_key": null,
+          "image": "https://etc.athom.com/logo/transparent/128.png",
+          "supports_refresh": true
+        }
+      ],
+      "config": {
+        "address": {
+          "type": "str",
+          "description": "The Homey URL used with a Homey Pro 2023+ personal API key.",
+          "advanced": false,
+          "tab": "Configuration",
+          "accordion": null,
+          "optional": true,
+          "default": "",
+          "rules": [],
+          "visible": true,
+          "display": {
+            "type": "text",
+            "label": "Homey address",
+            "tooltip": null,
+            "error": null,
+            "is_subconfig": false,
+            "col_span": 12,
+            "col_justify": null,
+            "col_align": null,
+            "is_disabled": false,
+            "placeholder": "https://<homey-id>.connect.athom.com",
+            "number_of_lines": 1,
+            "show_refresh": false,
+            "is_code": false,
+            "is_textarea": false,
+            "class_name": null
+          }
+        },
+        "api_key": {
+          "type": "str",
+          "description": "A personal API key created on Homey Pro 2023 or newer.",
+          "advanced": false,
+          "tab": "Configuration",
+          "accordion": null,
+          "optional": true,
+          "default": "",
+          "rules": [],
+          "visible": true,
+          "display": {
+            "type": "password",
+            "label": "API key (Homey Pro 2023+)",
+            "tooltip": null,
+            "error": null,
+            "is_subconfig": false,
+            "col_span": 12,
+            "col_justify": null,
+            "col_align": null,
+            "is_disabled": false,
+            "placeholder": "Paste your Homey API key"
+          }
+        },
+        "verify_tls": {
+          "type": "bool",
+          "description": null,
+          "advanced": false,
+          "tab": "Configuration",
+          "accordion": null,
+          "optional": true,
+          "default": true,
+          "rules": [],
+          "visible": true,
+          "display": {
+            "type": "toggle",
+            "label": "Verify TLS certificates",
+            "tooltip": null,
+            "error": null,
+            "is_subconfig": false,
+            "col_span": 12,
+            "col_justify": null,
+            "col_align": null,
+            "is_disabled": false
+          }
+        },
+        "timeout_seconds": {
+          "type": "int",
+          "description": null,
+          "advanced": false,
+          "tab": "Configuration",
+          "accordion": null,
+          "optional": true,
+          "default": 15,
+          "rules": [],
+          "visible": true,
+          "display": {
+            "type": "number",
+            "label": "Request timeout (seconds)",
+            "tooltip": null,
+            "error": null,
+            "is_subconfig": false,
+            "col_span": 12,
+            "col_justify": null,
+            "col_align": null,
+            "is_disabled": false
+          }
+        }
+      }
+    }
+  ],
+  "triggers": [],
+  "datasources": []
+}
